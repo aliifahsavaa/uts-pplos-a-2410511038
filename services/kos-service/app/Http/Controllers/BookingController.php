@@ -20,14 +20,14 @@ class BookingController extends Controller
         }
 
         $perPage = $request->get('per_page', 10);
-        $booking - $query->paginate($perPage);
+        $booking = $query->paginate($perPage);
 
         return response()->json($booking, 200);
     }
 
     public function show($id)
     {
-        $booking = Booking::with(['kamar', 'penyewa'])->find(id);
+        $booking = Booking::with(['kamar', 'penyewa'])->find($id);
         if (!$booking) {
             return response()->json(['message' => 'Booking Tidak Ditemukan.'], 404);
         }
@@ -38,9 +38,9 @@ class BookingController extends Controller
     {
         $request->validate([
             'kamar_id' => 'required|integer|exists:kamar,id',
-            'penyewa_id' => 'required|integer|exists:peneywa,id',
+            'penyewa_id' => 'required|integer|exists:penyewa,id',
             'tanggal_mulai' => 'required|date',
-            'tanggal_selesai' => 'required|date|dafter:tanggal_mulai',
+            'tanggal_selesai' => 'required|date|after:tanggal_mulai',
             'status' => 'required|in:pending,aktif,selesai,dibatalkan',
         ]);
 

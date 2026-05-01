@@ -12,7 +12,7 @@ class PenyewaController extends Controller
         $query = Penyewa::query();
 
         if ($request->has('nama')) {
-            $query->where('nama', 'like', '%' .  $request->nama . '%');
+            $query->where('nama', 'like', '%' . $request->nama . '%');
         }
 
         $perPage = $request->get('per_page', 10);
