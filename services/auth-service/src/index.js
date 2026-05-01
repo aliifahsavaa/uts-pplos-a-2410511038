@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(session({
     secret: process.env.JWT_SECRET,
     resave: false,
-    saveUnitialized: false
+    saveUninitialized: false
 }));
 
 app.use(passport.initialize());

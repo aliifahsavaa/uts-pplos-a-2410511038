@@ -13,7 +13,7 @@ router.get('/google', passport.authenticate('google', {
     scope: ['profile', 'email']
 }));
 
-router.get('/google/callbacl',
+router.get('/google/callback',
     passport.authenticate('google', { failureRedirect: '/api/auth/login-failed' }),
     (req, res) => {
         const user = req.user;
@@ -22,6 +22,13 @@ router.get('/google/callbacl',
             process.env.JWT_SECRET,
             { expiresIn: '15m' }
         );
+
+        const refreshToken = jwt.sign(
+            { id: user.id, email: user.email },
+            process.env.JWT_REFRESH_SECRET,
+            { expiresIn: '7d' }
+        );
+        
         res.json({ accessToken, refreshToken, user: {
             name: user.name,
             email: user.email,
