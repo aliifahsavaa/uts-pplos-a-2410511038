@@ -6,6 +6,9 @@ require('dotenv').config();
 
 const app = express();
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 const limiter = rateLimit({
     windowMs: 1 * 60 * 1000,
     max: 60,
@@ -19,7 +22,7 @@ const verifyJWT = (req, res, next) => {
 
     const token = authHeader.split(' ')[1];
     try {
-        const decoded = jwt.verify(token, '052053cd9b08cce255944bac4849a1bdb6b5e98ba7439e5957c1d17c23bd25fc');
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
         req.user = decoded;
         next();
     } catch (err) {
@@ -27,7 +30,15 @@ const verifyJWT = (req, res, next) => {
     }
 };
 
-app.use('/api/auth', proxy('http://localhost:3001'));
+app.use('/api/auth', proxy('http://localhost:3001', {
+    proxyReqPathResolver: (req) => {
+        const parts = req.url.split('?');
+        const queryString = parts[1] ? '?' + parts[1] : '';
+        const path = parts[0];
+        return path.startsWith('/') ? path + queryString : '/' + path + queryString;
+    }
+}));
+
 app.use('/api/kos', verifyJWT, proxy('http://localhost:8000', {
     proxyReqPathResolver: (req) => `/api${req.url}`
 }));

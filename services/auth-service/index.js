@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const session = require('express-session');
-const passport = require('./passport');
+const passport = require('./src/passport');
 require('dotenv').config();
 
 const app = express();
@@ -17,8 +17,8 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-const authRoutes = require('./routes/auth');
-app.use('/api/auth', authRoutes);
+const authRoutes = require('./src/routes/auth');
+app.use('/', authRoutes);
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
