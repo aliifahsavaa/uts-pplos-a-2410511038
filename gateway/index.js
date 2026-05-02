@@ -43,7 +43,7 @@ app.use('/api/kos', verifyJWT, proxy('http://localhost:8000', {
     proxyReqPathResolver: (req) => `/api${req.url}`
 }));
 
-app.use('/api/payments', verifyJWT, proxy('http://localhost:3002'));
+app.use('/api/payments', verifyJWT, proxy('http://localhost:3003'));
 
 const PORT = 3000;
 app.listen(PORT, () => {

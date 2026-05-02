@@ -5,6 +5,10 @@ use App\Http\Controllers\KamarController;
 use App\Http\Controllers\PenyewaController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\PembayaranController;
+use App\Http\Controllers\FasilitasController;
+use App\Http\Controllers\PemilikController;
+
+Route::middleware('jwt')->group(function () {
 
 // Kamar
 Route::get('/kamar', [KamarController::class, 'index']);
@@ -33,3 +37,12 @@ Route::get('/fasilitas/{id}', [FasilitasController::class, 'show']);
 Route::post('/fasilitas', [FasilitasController::class, 'store']);
 Route::put('/fasilitas/{id}', [FasilitasController::class, 'update']);
 Route::delete('/fasilitas/{id}', [FasilitasController::class, 'destroy']);
+
+// Pemilik
+Route::get('/pemilik', [PemilikController::class, 'index']);
+Route::get('/pemilik/{id}', [PemilikController::class, 'show']);    
+Route::post('/pemilik', [PemilikController::class, 'store']);
+Route::put('/pemilik/{id}', [PemilikController::class, 'update']);
+Route::delete('/pemilik/{id}', [PemilikController::class, 'destroy']);  
+
+});
