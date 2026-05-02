@@ -28,7 +28,7 @@ router.get('/google/callback',
             process.env.JWT_REFRESH_SECRET,
             { expiresIn: '7d' }
         );
-        
+
         res.json({ accessToken, refreshToken, user: {
             name: user.name,
             email: user.email,
@@ -39,6 +39,17 @@ router.get('/google/callback',
 
 router.get('/login-failed', (req, res) => {
     res.status(401).json({ message: 'Login Google Gagal.' });
+});
+
+router.post('/profile', authMiddleware, async (req, res) => {
+    try {
+        const db = require('../models/db');
+        const [rows] = await db.query('SELECT id, name, email, avatar, oauth_provider FROM users WHERE id = ?', [req.user.id]);
+        if (rows.length === 0) return res.status(404).json({ message: 'User Tidak Ditemukan.' });
+        res.json(rows[0]);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 });
 
 module.exports = router;
