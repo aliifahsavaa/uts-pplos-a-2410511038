@@ -14,11 +14,11 @@ const db = mysql.createPool({
     database: 'payment_db',
 });
 
-app.post('/api/payments', async (req, res) => {
+app.post('/api/payments', authMiddleware, async (req, res) => {
     try {
         const { booking_id, jumlah, metode_pembayaran } = req.body;
 
-        const booking = await axios.get(`http://localhost:8000/api/bookings/${booking_id}`, {
+        const booking = await axios.get(`http://localhost:8000/api/booking/${booking_id}`, {
             headers: { Authorization: req.headers['authorization'] }
         });
 
@@ -45,4 +45,4 @@ app.get('/api/payments', authMiddleware, async (req, res) => {
     }
 });
 
-app.listen(3002, () => console.log('Payment Service Berjalan di Port 3002'));
+app.listen(3003, () => console.log('Payment Service Berjalan di Port 3003'));

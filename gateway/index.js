@@ -31,12 +31,7 @@ const verifyJWT = (req, res, next) => {
 };
 
 app.use('/api/auth', proxy('http://localhost:3001', {
-    proxyReqPathResolver: (req) => {
-        const parts = req.url.split('?');
-        const queryString = parts[1] ? '?' + parts[1] : '';
-        const path = parts[0];
-        return path.startsWith('/') ? path + queryString : '/' + path + queryString;
-    }
+    proxyReqPathResolver: (req) => `/api/auth${req.url}` 
 }));
 
 app.use('/api/kos', verifyJWT, proxy('http://localhost:8000', {
