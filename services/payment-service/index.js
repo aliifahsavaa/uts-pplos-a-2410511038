@@ -8,10 +8,10 @@ const db = mysql.createPool({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASS, 
-    database: 'kos_db'
+    database: 'payment_db',
 });
 
-app.post('api/payments', async (req, res) => {
+app.post('/api/payments', async (req, res) => {
     try {
         const { booking_id, jumlah, metode_pembayaran } = req.body;
         await db.query(
