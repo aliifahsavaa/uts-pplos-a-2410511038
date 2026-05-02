@@ -26,3 +26,10 @@ Route::get('/booking/{id}', [BookingController::class, 'show']);
 Route::post('/booking', [BookingController::class, 'store']);
 Route::put('/booking/{id}', [BookingController::class, 'update']);
 Route::delete('/booking/{id}', [BookingController::class, 'destroy']);  
+
+// Fasilitas 
+Route::get('/fasilitas', [FasilitasController::class, 'index']);
+Route::get('/fasilitas/{id}', [FasilitasController::class, 'show']);
+Route::post('/fasilitas', [FasilitasController::class, 'store']);
+Route::put('/fasilitas/{id}', [FasilitasController::class, 'update']);
+Route::delete('/fasilitas/{id}', [FasilitasController::class, 'destroy']);
