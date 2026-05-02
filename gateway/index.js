@@ -40,7 +40,7 @@ app.use('/api/auth', proxy('http://localhost:3001', {
 }));
 
 app.use('/api/kos', verifyJWT, proxy('http://localhost:8000', {
-    proxyReqPathResolver: (req) => `/api${req.url}`
+    proxyReqPathResolver: (req) => req.url
 }));
 
 app.use('/api/payments', verifyJWT, proxy('http://localhost:3003'));
